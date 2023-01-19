@@ -1,0 +1,21 @@
+# -----------------------------------------------------------------
+# .gitignore for WordPress @Compass
+# 20230119
+# By default all files are ignored.  You'll need to whitelist
+# any mu-plugins, plugins, or themes you want to include in the repo.
+#
+# To ignore uncommitted changes in a file that is already tracked, use 
+# git update-index --assume-unchanged
+#
+# To stop tracking a file that is currently tracked, use 
+# git rm --cached
+#
+# Change Log:
+# 20230119 ignore logs and php storm xml
+# -----------------------------------------------------------------
+
+# Ignore theme logs
+sextant/WP_Cron_Hook_logs
+
+# Ignore PHP Storm generated XML
+sextant/.idea

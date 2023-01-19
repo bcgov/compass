@@ -1,0 +1,203 @@
+/*!
+Theme Name: Sextant
+Theme URI: http://underscores.me/
+Author: Jeremy Vernon
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0.0
+Tested up to: 5.4
+Requires PHP: 5.6
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: the-compass-theme
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned.
+
+Sextant is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# BASE
+# COMPONENTS
+  NAVBAR
+  SITE CONTAINER
+# Adjustments for Mobile
+
+-------------------------------------------------------------- */
+
+
+
+$compass-green: #1CA664;
+$background-gray: #F4F4F4;
+$background-white: #FFFFFF;
+$background-dark-gray: #393939;
+
+$navbarheight: 96px;
+
+
+/* ------------------------------------------------------------
+
+# BASE
+
+ --------------------------------------------------------------*/
+body {
+  background-color: $background-gray;
+}
+
+/* ------------------------------------------------------------
+
+# Components
+
+ --------------------------------------------------------------*/
+
+/* NAVBAR */
+
+/* Navbar search */
+
+#topsearchbar {
+  width: 20vw;
+  height: 60px;
+  background-color: $background-gray;
+  border: none;
+  margin-right: 2.8rem;
+}
+#search-button {
+  padding: 0.375rem 0.75rem;
+}
+
+/* Navbar Panels */
+
+img.navIcon {
+  width: 2.5em;
+  height: 2.5em;
+}
+
+#events-toggle, #mintranets-toggle, #externals-toggle, #infotech-toggle {
+  background-color: $background-white;
+  border: none;
+  line-height: 1em;
+  height: 72px;
+  width: 96px;
+  background-size: 48px 48px;
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+}
+#events-toggle {
+  background-image: url('img/icon-calendar.svg');
+}
+#mintranets-toggle {
+  background-image: url('img/icon-mintranets.svg');
+}
+#externals-toggle {
+  background-image: url('img/icon-links.svg');
+}
+#infotech-toggle {
+  background-image: url('img/icon-technology.svg');
+}
+
+.panel-button-text {
+  color: rgba(255, 255, 255, 0);
+}
+
+#events-toggle:hover, #mintranets-toggle:hover, #externals-toggle:hover, #infotech-toggle:hover {
+  background-color: $background-gray;
+}
+#events-container, #mintranets-container, #externals-container, #infotech-container {
+  width: 800px;
+  height: calc(100% - 97px);
+  position: absolute;
+  background-color: $background-dark-gray;
+  z-index: 10000;
+  left: calc(100% - 800px);
+}
+
+button.rightnavButton {
+  margin-right: 0.2rem;
+  z-index: 1500;
+}
+
+#events-toggle.active, #mintranets-toggle.active, #externals-toggle.active, #infotech-toggle.active {
+  background-color: $background-dark-gray;
+}
+
+#events-toggle.active {
+  background-image: url('img/icon-calendar-white.svg');
+}
+#mintranets-toggle.active {
+  background-image: url('img/icon-mintranets-white.svg');
+}
+#externals-toggle.active {
+  background-image: url('img/icon-links-white.svg');
+}
+#infotech-toggle.active {
+  background-image: url('img/icon-technology-white.svg');
+}
+
+
+/* Left Nav Bar & Panels */
+
+#sidebarSpacer {
+  height: 80px;
+}
+
+
+/* SITE CONTAINER */
+
+/* Fix for Elementor display */
+.elementor-image-box-title a {
+  text-decoration: none !important;
+}
+
+
+
+/* FOOTER */
+#site-footer {
+  background-color: $background-dark-gray;
+
+}
+.territorial-acknowledgement {
+  color: #FFFFFF;
+}
+
+/* -----------------
+
+ADJUSTMENTS FOR MOBILE
+
+----------------- */
+
+@media (max-width: 750px) {
+  .navbar-brand {
+    max-width: calc(100% - 74px);
+  }
+
+  #elementor-library-17 {
+    margin-right: 6px;
+  }
+
+  #search-button {
+    width: 90px;
+  }
+
+  #events-toggle, #mintranets-toggle, #externals-toggle, #infotech-toggle {
+    max-width: 24%;
+    max-height: 93px;
+    padding-top: 45px;
+  }
+
+  #events-container, #mintranets-container, #externals-container, #infotech-container {
+    width: 100%;
+    left: 0;
+    position: absolute;
+  }
+
+
+}

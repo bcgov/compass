@@ -1,0 +1,244 @@
+/*!
+Theme Name: Sextant
+Theme URI: http://underscores.me/
+Author: Jeremy Vernon
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.5.0
+Tested up to: 5.4
+Requires PHP: 5.6
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: the-compass-theme
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned.
+
+Sextant is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# BASE
+# COMPONENTS
+  NAVBAR
+  SITE CONTAINER
+# Adjustments for Mobile
+
+-------------------------------------------------------------- */
+/* Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+
+/* ------------------------------------------------------------
+
+# BASE
+
+ --------------------------------------------------------------*/
+body {
+  background-color: #F4F4F4;
+}
+
+/* ------------------------------------------------------------
+
+# Components
+
+ --------------------------------------------------------------*/
+/* NAVBAR */
+
+.navbar-brand {
+	max-width: 300px;
+}
+
+/* Navbar search */
+#topsearchbar {
+  width: 20vw;
+  height: 60px;
+  background-color: #F4F4F4;
+  border: none;
+  margin-right: 2.8rem;
+}
+
+#search-button {
+  padding: 0.375rem 0.75rem;
+  border:none !important;
+}
+
+/* Navbar Panels */
+img.navIcon {
+  width: 2.5em;
+  height: 2.5em;
+}
+
+#events-toggle, #mintranets-toggle, #externals-toggle, #infotech-toggle {
+  background-color: #FFFFFF;
+  border: none;
+  height: 90px;
+  width: 90px;
+  line-height: 0;
+  background-size: 52px 52px;	
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+}
+
+#events-toggle {
+  background-image: url("img/icon-calendar.png");
+}
+
+#mintranets-toggle {
+  background-image: url("img/icon-mintranets.png");
+}
+
+#externals-toggle {
+  background-image: url("img/icon-toolbox.png");
+}
+
+#infotech-toggle {
+  background-image: url("img/icon-technology.png");
+}
+
+.panel-button-text {
+  color: rgba(255, 255, 255, 0);
+}
+
+#events-toggle:hover, #mintranets-toggle:hover, #externals-toggle:hover, #infotech-toggle:hover {
+  background-color: #F4F4F4;
+}
+
+#events-container, #mintranets-container, #externals-container, #infotech-container {
+  width: 800px;
+  height: calc(100% - 97px);
+  position: absolute;
+  background-color: #393939;
+  z-index: 10000;
+  left: calc(100% - 800px);
+}
+
+button.rightnavButton {
+  margin-right: 0.2rem;
+  z-index: 1500;
+}
+
+#events-toggle.active, #mintranets-toggle.active, #externals-toggle.active, #infotech-toggle.active {
+  background-color: #393939;
+}
+
+#events-toggle.active {
+  background-image: url("img/icon-calendar-rev.png");
+}
+
+#mintranets-toggle.active {
+  background-image: url("img/icon-mintranets-rev.png");
+}
+
+#externals-toggle.active {
+  background-image: url("img/icon-toolbox-rev.png");
+}
+
+#infotech-toggle.active {
+  background-image: url("img/icon-technology-rev.png");
+}
+
+/* Left Nav Bar & Panels */
+#sidebarMenu {
+	max-width: 300px;
+}
+
+#sidebarSpacer {
+  height: 80px;
+}
+
+/* Nav Menu Styling */
+
+#menu-main-site-nav , #menu-main-site-nav ul {
+  list-style: none;
+  padding-left: 1.25em;
+}
+
+#menu-main-site-nav a {
+  text-decoration: none;
+}
+
+#menu-main-site-nav li {
+  font-size: 18px;
+  margin-bottom: 0.2em;
+
+}
+#menu-main-site-nav > li {
+	margin-bottom: 0.8em;
+}
+
+#menu-main-site-nav .sub-menu li {
+  font-size: 16px;
+}
+
+
+#menu-main-site-nav ul {
+  background-color: rgba(0,0,0,0);
+  padding-left: 1.3em;
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+
+#menu-main-site-nav  .current_page_item > a {
+  background-color: #1CA664;
+  color: white;
+  padding-left: 20px;
+  margin-left: -20px;
+  padding-right: 0.5em;
+}
+
+/* SITE CONTAINER */
+/* Fix for Elementor display */
+.elementor-image-box-title a {
+  text-decoration: none !important;
+}
+
+/* FOOTER */
+#site-footer {
+  background-color: #393939;
+}
+
+.territorial-acknowledgement {
+  color: #FFFFFF;
+}
+
+/* -----------------
+
+ADJUSTMENTS FOR MOBILE
+
+----------------- */
+@media (max-width: 750px) {
+  .navbar-brand {
+    max-width: calc(100% - 74px);
+  }
+
+  #elementor-library-17 {
+    margin-right: 6px;
+  }
+
+  #search-button {
+    width: 90px;
+  }
+
+  #events-toggle, #mintranets-toggle, #externals-toggle, #infotech-toggle {
+    max-width: 24%;
+    max-height: 93px;
+    padding-top: 45px;
+  }
+
+  #events-container, #mintranets-container, #externals-container, #infotech-container {
+    width: 100%;
+    left: 0;
+    position: absolute;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
