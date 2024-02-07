@@ -1,14 +1,15 @@
-<?php
-
-/**
- * eventData JSON pull 
- *
- * Pulls the event data from the event calendar API, and converts it into a locally stored json file. This prevents mass api-calling on the front-end to manage the loading of event-data.
- * 
- * Includes actions to run this function manually as a page within the Events menu and dropdown menu.
- */
 const EVENTS_DATA_URL = 'https://compass.gww.gov.bc.ca/wp-json/tribe/events/v1/events/?page=1&per_page=48&start_date=';
-const EVENTS_JSON_PATH = '/bitnami/wordpress/wp-content/uploads/wes-2022/';
+const EVENTS_JSON_PATH = '/bitnami/wordpress/wp-content/uploads/events-list/';
+
+//Debug Function to print to console
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
+
 
 //gets the next 48 events starting from the prior month and stores in a local json file
 function getFileEvents() {
@@ -26,6 +27,7 @@ function getFileEvents() {
 function saveJSON(){
 	$eventsData = getFileEvents();
 	file_put_contents(EVENTS_JSON_PATH . 'event-list.json', json_encode($eventsData));
+	file_put_contents(EVENTS_JSON_PATH . 'event-list-backup.json', json_encode($eventsData));
 }	
 
 

@@ -1,16 +1,10 @@
-<?php
-
-/**
- * Load and Render Event Data from Calendar
- *
- * This is a script for loading the event data from the locally stored Events JSON file. This snippet is run on the front-end, and provides the data for an event widget.
- */
 add_filter( 'tec_views_v2_use_subscribe_links', '__return_false' );
 add_action( 'wp_head', function () { ?>
 <script>
 	
 (function($) {	
 
+const backupEventsJSON = '/bitnami/wordpress/wp-content/uploads/events-list/event-list-backup.json'
 
 /**
  * Fetches event data from events calendar REST API, using current date, and calls page-loading 
@@ -19,13 +13,29 @@ add_action( 'wp_head', function () { ?>
  */
 	
 function eventLoadDisplay(url) {
-    fetch(url)
+	try {
+		fetch(url)
     .then(res => res.json())
     .then(out => data = out)
     .then(() =>
 
     getEventData(data)
     )
+	.catch(err => {
+		console.log('Error retrieving Data from: ', url);
+		
+			try {
+				eventLoadDisplay(backupEventsJSON)
+			}
+			catch(err) {
+				console.log('Error retrieving Data from backup.')
+				errorHandler();
+			};
+	})
+	} catch (error) {
+		console.log('Error retrieving Data from: ', url)
+	}
+
 }
 	
 //array for holding all parsed event data pending generation of event list accordion	
@@ -58,11 +68,24 @@ function getEventData(eventData) {
 	datalist.setAttribute('id', 'datalist-categories');
 	
 	let length = Object.keys(eventData['events']);
-    eventData['events'].forEach(element => {
+	
+	//Creates a subset of the dates in the calendar. Currently set between events ending current date and 3 months in the future
+	let currentDate = new Date();
+	currentDate.setDate(currentDate.getDate()-1);
+	let futureDate = new Date();
+	futureDate.setDate(futureDate.getDate()+90);
+	const eventsTruncated = eventData['events'].filter((each) => {
+		const itemEndDate = new Date((each.end_date));
+		if (itemEndDate >= currentDate && itemEndDate <= futureDate) return true;
+	});
+
+	    eventsTruncated.forEach(element => {
+			
         const { title, start_date, slug, end_date, website, description, excerpt, categories } = element;
         const urlPrepend = "https://compass.gww.gov.bc.ca/event/"
         const start = start_date.slice(0,10);
         const end = end_date.slice(0,10);
+
         const url = `${urlPrepend}${slug}/`;
         const blurb = description.slice(0,450);
 		const excerptBlurb = excerpt.slice(0,450);
@@ -87,6 +110,8 @@ function getEventData(eventData) {
 		let text = this.value;
 		const present = $('.presentEvent');
 		const future = $('.futureEvent');
+		
+		//$('.collapse').collapse("hide"); 
 		$('.event-content').collapse("hide"); 	
 		future.hide();
 		present.hide();
@@ -109,7 +134,7 @@ function getEventData(eventData) {
 		filter.addEventListener('input', function() {
 			let text = String($(this).val());
 			text = text.toLowerCase();
-			searchButton.innerHTML = `<a style='color: white;text-decoration:none' href='https://compass.gww.gov.bc.ca/events/list/?tribe-bar-search=${text}'>search</a>`;
+			searchButton.innerHTML = `<a style='color:white;text-decoration:none' href='https://compass.gww.gov.bc.ca/events/list/?tribe-bar-search=${text}'>search</a>`;
 			const searchString = ".presentEvent:contains('" + text + "')";
 			const searchTD = ".futureEvent:contains('" + text + "')";
 			const upperText = text[0] ? text[0].toUpperCase() + text.slice(1) : "";
@@ -119,6 +144,7 @@ function getEventData(eventData) {
 			const present = $('.presentEvent');
 			const future = $('.futureEvent');
 			
+			//$('.collapse').collapse("hide"); 
 			$('.event-content').collapse("hide"); 	
 			present.hide();
 			future.hide();
@@ -229,6 +255,9 @@ const accordionCreate = function(item, parentAccordion){
 		const webCalendarLink = item[i].url + "?ical=1";
         calButton.innerHTML = `<a style="color: white;text-decoration: none" href=${webCalendarLink}>Add to Outlook</a>`;
 
+			
+		//cardBody.appendChild(readButton);
+        //cardBody.appendChild(calButton);
 		buttonHolder.appendChild(readButton);
 		buttonHolder.appendChild(calButton);
 		cardBody.appendChild(buttonHolder);
@@ -263,6 +292,7 @@ function addEventToTable(element, tableID, datalistMenu) {
 
 	let currentDate = new Date();
 	currentDate.setDate(currentDate.getDate()-1);
+	//currentDate.setHours(currentDate.getHours() + 8); //may need to update if errors with dates ongoing
 	let date_start = new Date(start);
 	date_start.setHours(date_start.getHours() + 8);
 	const date_end = new Date(end);
@@ -295,7 +325,7 @@ function addEventToTable(element, tableID, datalistMenu) {
 		accordionList.push(elementObject);
 		eventCounter++;
 		
-	} else if(date_start >= currentDate && eventCounter <= 12) {
+	} else if(date_start >= currentDate && eventCounter <= 10) {
 		if(dateState !== start){
 			accordionList.push({'date': `${longDateStart} ${dayStart}`, 'class': 'presentEvent'});
 			dateState = start;
@@ -312,22 +342,37 @@ function addEventToTable(element, tableID, datalistMenu) {
 		accordionList.push(elementObject);
 		eventCounter++;
 
-	} else if(date_start >= currentDate) {
-		if(dateState !== start){
-			accordionList.push({'date': `${longDateStart} ${dayStart}`, 'class': 'futureEvent'});
-			dateState = start;
-		}
-		elementObject['class'] = "futureEvent";
-		if(tagChain){
-		tagChain.forEach(category => {
-			elementObject['category'].push(category.name);	
-			if((datalist.innerHTML).indexOf(category.name) < 0){
-				datalist.innerHTML += '<option value="' + category.name + '">' + category.name + '</option>';
-			}	
-		});
-		}
-		accordionList.push(elementObject);
-	}
+	} 
+// 	else if(date_start >= currentDate) {
+// 		if(dateState !== start){
+// 			accordionList.push({'date': `${longDateStart} ${dayStart}`, 'class': 'futureEvent'});
+// 			dateState = start;
+// 		}
+// 		elementObject['class'] = "futureEvent";
+// 		if(tagChain){
+// 		tagChain.forEach(category => {
+// 			elementObject['category'].push(category.name);	
+// 			if((datalist.innerHTML).indexOf(category.name) < 0){
+// 				datalist.innerHTML += '<option value="' + category.name + '">' + category.name + '</option>';
+// 			}	
+// 		});
+// 		}
+// 		accordionList.push(elementObject);
+// 	}
+	
+}
+	
+/**
+* Error handler to display error message on page if load and backup load fail
+*/
+
+function errorHandler() {
+	let eventTableExists = document.getElementById('eventData');
+	const errorText = document.createElement('div');
+	errorText.innerHTML = "<a style='color:white;text-decoration:none' href='javascript:window.location.href=window.location.href'>Error Loading Events. Please Reload Page to reset events.</a>";
+	eventTableExists.appendChild(
+		errorText
+	);
 }
 	
 //Waits for page readiness before executing user-facing tasks
@@ -340,12 +385,16 @@ var ready = (callback) => {
 	//This conditional ensures script only executes on pages with events navbar.
 		
 	//location of local JSON event storage
-	const localEventsJSON = '/bitnami/wordpress/wp-content/uploads/wes-2022/event-list.json';
+	const localEventsJSON = '/bitnami/wordpress/wp-content/uploads/events-list/event-list.json';
 		
 	let eventTableExists = document.getElementById('eventData')
 	if (eventTableExists != null) {
-		eventLoadDisplay((localEventsJSON));
-	}	
+		try{
+			eventLoadDisplay((localEventsJSON));
+		} catch {
+			console.log('Error Retrieving Main Event List')	
+		} 
+	}
 	})
 	
 	
