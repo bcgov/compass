@@ -4,7 +4,7 @@ add_action( 'wp_head', function () { ?>
 	
 (function($) {	
 
-const backupEventsJSON = '/bitnami/wordpress/wp-content/uploads/events-list/event-list-backup.json'
+const backupEventsJSON = '/wp-content/uploads/events-list/event-list-backup.json'
 
 /**
  * Fetches event data from events calendar REST API, using current date, and calls page-loading 
@@ -385,16 +385,18 @@ var ready = (callback) => {
 	//This conditional ensures script only executes on pages with events navbar.
 		
 	//location of local JSON event storage
-	const localEventsJSON = '/bitnami/wordpress/wp-content/uploads/events-list/event-list.json';
+	const localEventsJSON = '/wp-content/uploads/events-list/event-list.json';
 		
 	let eventTableExists = document.getElementById('eventData')
 	if (eventTableExists != null) {
 		try{
 			eventLoadDisplay((localEventsJSON));
 		} catch {
-			console.log('Error Retrieving Main Event List')	
+			console.log('Error Retrieving Main Event List')		
 		} 
 	}
+		
+	
 	})
 	
 	
