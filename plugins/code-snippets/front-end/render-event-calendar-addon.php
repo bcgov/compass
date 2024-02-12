@@ -248,18 +248,21 @@ const accordionCreate = function(item, parentAccordion){
 			readButton.innerHTML = `<a style="color: white;text-decoration: none" href=${item[i].url}> View Event</a><br>`;
 			buttonHolder.style.cssText += "justify-content:end;flex-direction:row-reverse;justify-content:space-between"
 		}
+			
+		buttonHolder.appendChild(readButton);	
+		
+		/**
+		 * Add To Calendar Button currently Removed
 		
 		const calButton = document.createElement('button');
 		calButton.style.cssText += "padding:.5em;border:none"
         calButton.classList.add("add-calendar");
 		const webCalendarLink = item[i].url + "?ical=1";
         calButton.innerHTML = `<a style="color: white;text-decoration: none" href=${webCalendarLink}>Add to Outlook</a>`;
-
-			
-		//cardBody.appendChild(readButton);
-        //cardBody.appendChild(calButton);
-		buttonHolder.appendChild(readButton);
 		buttonHolder.appendChild(calButton);
+		*/
+			
+		
 		cardBody.appendChild(buttonHolder);
 
         collapseShow.appendChild(cardBody);
@@ -392,11 +395,12 @@ var ready = (callback) => {
 		try{
 			eventLoadDisplay((localEventsJSON));
 		} catch {
-			console.log('Error Retrieving Main Event List')		
+			console.log('Error Retrieving Main Event List')
+		
 		} 
 	}
 		
-	
+		
 	})
 	
 	
